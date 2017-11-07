@@ -13,24 +13,24 @@ function discwid_admin_head() {
 }
 add_action( 'admin_head', 'discwid_admin_head' );
 class discwid_widget extends WP_Widget {
-     
+
     function __construct() {
     	    parent::__construct(
-         
+
         // base ID of the widget
         'discourse_list_pages_widget',
-         
+
         // name of the widget
         __('Discourse Widgets', 'tutsplus' ),
-         
+
         // widget options
         array (
             'description' => __( 'Display widget in the sidebar', 'tutsplus' )
         )
-         
+
     );
     }
-     
+
     function form( $instance ) {
       $defaults = array(
             'title' => '-1',
@@ -40,7 +40,7 @@ class discwid_widget extends WP_Widget {
         $title = $instance[ 'title' ];
         $URL = $instance[ 'URL' ];
         $Order = $instance[ 'Order' ];
-         
+
         // markup for form ?>
         <p>
             <label for="<?php echo $this->get_field_id( 'title' ); ?>">Title:</label>
@@ -56,8 +56,8 @@ class discwid_widget extends WP_Widget {
         </p>
         <?php
     }
-     
-    function update( $new_instance, $old_instance ) {    
+
+    function update( $new_instance, $old_instance ) {
     $instance = $old_instance;
     if (filter_var($new_instance[ 'URL' ], FILTER_VALIDATE_URL) !== false) {
         $instance[ 'URL' ] = htmlspecialchars(strip_tags( $new_instance[ 'URL' ] ));
@@ -68,9 +68,9 @@ class discwid_widget extends WP_Widget {
     if ($new_instance[ 'Order' ] == "Latest" || $new_instance[ 'Order' ] == "Top") {
         $instance[ 'Order' ] = htmlspecialchars(strip_tags( $new_instance[ 'Order' ] ));
     }
-        return $instance;   
+        return $instance;
     }
-     
+
     function widget( $args, $instance ) {
 
 $instance['URL'] = htmlspecialchars($instance['URL']);
@@ -125,13 +125,10 @@ if( is_wp_error( $response ) ) {
 }
 }
     }
-     
+
 }
 function discwid_register() {
-if(current_user_can('administrator') ) { 
-
-    register_widget( 'discwid_widget' );
- }
+  register_widget( 'discwid_widget' );
 }
 add_action( 'widgets_init', 'discwid_register' );
 
